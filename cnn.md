@@ -141,7 +141,7 @@
 
 # CNN
 - Entrada -> Convolucao -> Nao-lineariedade -> pooling;
-- Convolution vai, basicamente, aplicar varios filtros que serao aprendidos pela rede neural, e ter como saida uma quantidade de feature maps, que sao do tamanho da imagem de entrada, igual a quatidade de filtros
+- Convolution vai, basicamente, aplicar varios filtros que serao aprendidos pela rede neural, e ter como saida uma quantidade de feature maps, que sao do tamanho da imagem de entrada, igual a quatidade de filtros;
 - Convolution:
     - Code: `tf.keras.layers.Conv2D(filters=f, kernel_size=(h,w), strides=s)`;
     - Settings: quantidade de filtros, tamanho do kernel e strides;

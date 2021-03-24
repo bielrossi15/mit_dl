@@ -176,10 +176,14 @@ xt   --->
 
 - Linhas representam as multiplicacoes das matrizes de peso e [TANH] eh a funcao de ativacao;
 - Modulo repetivel, um no computavel da RNN;
+
+- LSTM:
+    - ct = memoria longo prazo;
+    - ht = memoria de curto prazo;
 - Celula LSTM:
 
                                                             ht
-           ft                        ut                     ^
+           ft                        ct                     ^
 ct-1 --->  (x)------cft------(+)-----------------|----------|---> ct
             |             it  |              ot[tanh]       |
           [sig]        ------(x)            ----(x)         |

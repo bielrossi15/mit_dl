@@ -123,4 +123,60 @@
 - L(theta,phi;x,z,beta) = Eqphi(z|x)[log ptheta(x|z)] (termo de reconstrucao) - Beta DKL (qphi(z|x) || p(z)) (termo de regularizacao);
 - Beta controla a forca do termo de regularizacao, aplicando restricoes no encoding latente para encorajar o desemaranhamento;
 
-     
+# GANs - Generative Adversarial Networks
+
+## Problema - Solucao
+- Nao queremos explicitamente modelar a densidade ou a distribuicao dos dados, queremos apenar aprender a gerar novas instancias similares aos dados;
+- Problema: queremos otimizar para pegar amostras de uma distribuicao muito complexa de dados que nao pode ser aprendida e nem modelada diretamente, entao queremos criar apenas uma aproximacao;
+- Solucao: pegar amostragem de algo super simples, como ruidos, e aprender a transformacao disso para a distribuicao dos dados;
+
+## Arquitetura
+- 2 redes neurais competindo:
+    - **Generator**: Treinada para sair de ruidos aleatorios para produzir uma imitacao dos dados;
+    - **Discriminator**: Recebe os dados sinteticos e dados reais e tem como objetivo identificar a falsa/real;
+
+## Intuicao
+- Discriminator:
+    - Vai ter como saida a probabilidade P(real) de um dado ser real;
+    - No comeco vai ter predicoes ruins, entao vai ser treinada com as entradas do generator ate maximizar a probabilidade de achar o que eh real;
+    - Recebe os novos valores do generator e continua treinando para maximizar a probabilidade dos pontos reais e minimizar a probabilidade desses;
+- Generator:
+    - Vai receber instancias de onde os dados de verdade estao e tentar aproximar os valores de ruido para os dados reais;
+
+## Treinando GANs
+- Custos:
+    - Discriminator:
+        - Baseado na crossentropy loss;
+        - Queremos maximizar a probabilidade que dados falsos sao identificados como falsos;
+        - arg max D Ez,x[log D(G(z)) + log(1 - D(x))];
+        - G(z): saida do generator;
+        - D(G(z)): estimativa do discriminator da probabilidade de uma instancia falsa ser falsa;
+        - D(x): estimativa do discriminator da probabilidade de uma instancia verdadeira ser falsa;
+        - 1 - D(x): estimativa do discriminator da probabilidade de uma instancia verdadeira ser verdadeira;
+        - Queremos maximizar essa probabilidade, do falso ser falso e o verdadeiro ser verdadeiro;
+    
+    - Generator:
+        - Queremos minimizar a probabilidade que dados falsos sao identificados como falsos;
+        - arg min G Ez,x[log D(G(z)) + log(1 - D(x))];
+        - Criar instancias falsas que enganam o melhor discriminator;
+
+    - Total:
+        - arg min G max D Ez,x[log D(G(z)) + log(1 - D(x))];
+
+- Apos o treino, podemos usar o generator para criar instancias nunca vistas anteriormente;
+
+## Tipos diferentes de GANs
+- GANs condicionais: 
+    - Adicionamos um termo condicional (label), podendo ser treinada de maneira supervisada;
+    - Um vetor que adiciona classes no modelo;
+    - Com isso, geramos amostras falsas com caracteristicas/condicoes especificas;
+    - Por exemplo, ao inves de gerar varios mnist, geramos um numero escolhido;
+    - Entradas em pares para o discriminator;
+    - Generator recebe um input, podendo ser de qualquer tipo, alem do noise;
+    -
+- CycleGANs:
+    - Mapear imagens de um dominio para outro, normalmente transferir estilo/distribuicao;
+    - Consegue isso adicionando relacoes e funcao de custo ciclicas;
+    - Possui 2 generators e 2 discriminators;
+    - Ao inves de receber como entrada um ruido, a C-GAN recebe dados x;
+    - CycleGAN pode transformar falas, sintetizar vozes;
