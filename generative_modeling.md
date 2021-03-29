@@ -28,11 +28,11 @@
 - Um metodo para aprender representacoes de features de menor dimensao usando dados sem labels;
 - "Encoder" aprende a mapear do dado, x, a um espaco de baixa dimensao latente, z;
 
-  |   |
-  |   |   | |
-  | x |   | |   | z | 
-  |   |   | | 
-  |   |
+  |   |  
+  |   |   | |  
+  | x |   | |   | z |   
+  |   |   | |   
+  |   |  
 
 - Porque nos preocupamos com esse z de baixa-dimensao?
     - Pois isso significa que podemos comprimir os dados em um vetor latente pequeno, aonde podemos aprender representacoes de features ricas e compactas;
@@ -148,20 +148,38 @@
     - Discriminator:
         - Baseado na crossentropy loss;
         - Queremos maximizar a probabilidade que dados falsos sao identificados como falsos;
-        - arg max D Ez,x[log D(G(z)) + log(1 - D(x))];
+        - arg max D Ez,x[log D(x) + log(1 - D(G(z))];
         - G(z): saida do generator;
-        - D(G(z)): estimativa do discriminator da probabilidade de uma instancia falsa ser falsa;
-        - D(x): estimativa do discriminator da probabilidade de uma instancia verdadeira ser falsa;
-        - 1 - D(x): estimativa do discriminator da probabilidade de uma instancia verdadeira ser verdadeira;
+        - D(G(z)): estimativa do discriminator da probabilidade de uma instancia falsa ser verdadeira;
+        - D(x): estimativa do discriminator da probabilidade de uma instancia verdadeira ser verdadeira;
+        - 1 - D(G(z)): estimativa do discriminator da probabilidade de uma instancia falsa ser falsa;
         - Queremos maximizar essa probabilidade, do falso ser falso e o verdadeiro ser verdadeiro;
+        - log serve apenas para escalar os numeros;
     
     - Generator:
         - Queremos minimizar a probabilidade que dados falsos sao identificados como falsos;
-        - arg min G Ez,x[log D(G(z)) + log(1 - D(x))];
+        - log D(x) nao tem nenhum termo ligado ao generator, entao, ao derivar, ira para zero, sendo assim  a formula usada no gradient descent:
+            - arg min G Ez,x[log(1 - D(G(z))];
+            - Nada mais eh do que a estimativa de probabilidade de uma instancia falsa ser considerada falsa pelo discriminator;
         - Criar instancias falsas que enganam o melhor discriminator;
 
     - Total:
-        - arg min G max D Ez,x[log D(G(z)) + log(1 - D(x))];
+        - arg min G max D Ez,x[log D(x) + log(1 - D(G(z))];
+        
+    - Algoritmo:
+        ```
+        for each training iteration do:
+            for k steps dp:
+                sample  m noises {z1,...,zm} and transform  with the Generator
+                sample m real samples {x1,...,xm} from real data
+                update the discriminator by ascending the gradient
+                gradient_d * (1/m) * SUM(log D(x) + log(1 - D(G(z)))
+             end for
+             sample  m noises {z1,...,zm} and transform  with the Generator
+             update the generator by descending the gradient
+             gradient_g * (1/m) * SUM(log(1 - D(G(z)))
+                
+        ```
 
 - Apos o treino, podemos usar o generator para criar instancias nunca vistas anteriormente;
 
