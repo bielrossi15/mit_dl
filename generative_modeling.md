@@ -191,7 +191,14 @@
     - Por exemplo, ao inves de gerar varios mnist, geramos um numero escolhido;
     - Entradas em pares para o discriminator;
     - Generator recebe um input, podendo ser de qualquer tipo, alem do noise;
-    -
+    - Com isso, controlamos a saida;
+    - EX: 
+        - Imagens google map para imagens satelite;
+        - Sem CGANs, nao poderiamos gerar imagens baseadas na entrada, apenas imagens de satelite aleatorias;
+        - Sem o conceito de GANs, nao poderiamos gerar as imagens;
+        - Entao com CGANs, ao inves de apenas o noise como entrada, temos a imagem de google maps;
+        - Faz o noise ser basicamente a distribuicao que consegue mapear a imagem do google maps a imagem de satelite;
+
 - CycleGANs:
     - Mapear imagens de um dominio para outro, normalmente transferir estilo/distribuicao;
     - Consegue isso adicionando relacoes e funcao de custo ciclicas;
