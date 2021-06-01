@@ -56,6 +56,10 @@
 
 ## Diferencas
 - Os autoencoders normais sao deterministicos, pois sua camada que gera o z (camada latente) eh apenas uma camada normal de uma rede neural, entao vai gerar apenas imagens iguais as que recebeu;
+- Problemas do autoencoder:
+    -   O plot do espaco latente nao eh simetrico em sua origem, entao nao se tem pontos de referencia para fazer a amostragem, para passar pro decoder;
+    -   Algumas labels ocupam muito espaco, enquanto outras pouco, fazendo assim com que a probabilidade de amostragem seja diferente entre as features;
+    -   Descontinuidade no espaco latente, fazendo com que a amostragem possa retirar pontos em que nao existe nada treinado pelo modelo, fazendo reconstrucoes aleatorias;
 - VAEs geram versoes mais suaves das imagens de entrada e tambem criar imagens parecidas, nao so iguais;
 - Troca aquela camada deterministica z com operacoes de amostragem estocastica:
     - Ao inves de aprender diretamente z, o VAE aprende uma media e uma variancia associada com a variavel latente que parametrizam uma distribuicao de probabilidade pra cada variavel latente;
