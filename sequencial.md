@@ -226,3 +226,17 @@ xt   --->   |
     - *ht = ot (x) tanh(Ct)*:
         - Utilizamos tanh(Ct) para adicionar nao-linearidade na rede neural e normaliza os valores;
 
+## Dimensões
+- Exemplo: imagens de 30x15, quais as dimensoes?
+    - Number of sequences: Quantidade de sequencias, por exemplo, quantidade de fotos, quantidade de frases, etc;
+    - Time steps: 30, pode ser visto como a quantidade de vezes que a célula vai processar diferentes pixels ou qtd de palavras em uma frase;
+    - Input sequence lenght: 15 (qtd de pixels por linha) ou em texto, tamanho de cada palavra após processamento;
+    - Output dim: Qtd de células, pois a camada de RNN possui várias células e oq vemos como várias células são apenas passos temporais da mesma célula;
+     ``` 
+            model = tf.keras.Sequential()
+            model.add(tf.keras.Input(shape=(time_steps (30), input_sequence_length (15) )))
+            model.add(tf.keras.LSTM(number_of_units))
+     ```
+     - Não é necessário explicitar o número de sequencias pois isso vem diretamente do dataset;
+    
+
