@@ -226,7 +226,7 @@ xt   --->   |
     - *ht = ot (x) tanh(Ct)*:
         - Utilizamos tanh(Ct) para adicionar nao-linearidade na rede neural e normaliza os valores;
 
-## Dimensões
+## Dimensões e Esclarecimentos
 - Exemplo: imagens de 30x15, quais as dimensoes?
     - Number of sequences: Quantidade de sequencias, por exemplo, quantidade de fotos, quantidade de frases, etc;
     - Time steps: 30, pode ser visto como a quantidade de vezes que a célula vai processar diferentes pixels ou qtd de palavras em uma frase;
@@ -238,5 +238,7 @@ xt   --->   |
             model.add(tf.keras.LSTM(number_of_units))
      ```
      - Não é necessário explicitar o número de sequencias pois isso vem diretamente do dataset;
+- O que foi escrito nesse documento como uma RNN eh na verdade uma célula de RNN e seus passos temporais, uma RNN parece com uma rede normal, mas composta de células que possuem passos temporais, assim como mostra a imagem abaixo:  
+![rnn](./rnn-vs-fnn.png)
     
 
